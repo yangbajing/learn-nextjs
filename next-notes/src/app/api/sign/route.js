@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/redis";
+import { getUser } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 /// 用户登录

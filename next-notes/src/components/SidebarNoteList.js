@@ -1,4 +1,4 @@
-import { getAllNotes } from "@/lib/redis";
+import { getAllNotes } from "@/lib/prisma";
 
 import SidebarNoteListFilter from "./SidebarNoteListFilter";
 import SidebarNoteItemHeader from "./SidebarNoteItemHeader";

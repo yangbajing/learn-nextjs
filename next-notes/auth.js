@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { addUser, getUser } from "@/lib/prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -17,31 +18,35 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         console.log("authorize:", credentials);
         // 默认情况下不对用户输入进行验证，确保使用 Zod 这样的库进行验证
         let user = null;
-        // 登陆信息验证
-        user = await fetch("http://localhost:3000/api/sign", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: credentials.username,
-            password: credentials.password,
-          }),
-        });
+        // // 登陆信息验证
+        // user = await fetch("http://localhost:3000/api/sign", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify({
+        //     username: credentials.username,
+        //     password: credentials.password,
+        //   }),
+        // });
+
+        user = await getUser(credentials.username, credentials.password);
+
         // 密码错误
         if (user === 1) return null;
         // 用户注册
         if (user === 0) {
-          user = await fetch("http://localhost:3000/api/sign/up", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: credentials.username,
-              password: credentials.password,
-            }),
-          });
+          // user = await fetch("http://localhost:3000/api/sign/up", {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify({
+          //     username: credentials.username,
+          //     password: credentials.password,
+          //   }),
+          // });
+          user = await addUser(credentials.username, credentials.password);
         }
         if (!user) {
           throw new Error("User was not found and could not be created.");
@@ -63,6 +68,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       } else {
         return true;
       }
+    },
+    async jwt({ token, user, account }) {
+      if (account && account.type === "credentials" && user) {
+        token.userId = user.userId;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.userId = token.userId;
+      return session;
     },
   },
 });

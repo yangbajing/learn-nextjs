@@ -1,5 +1,4 @@
 {
-  "accessibility.signalOptions.volume": 0,
   "sqltools.connections": [
     {
       "previewLimit": 50,
@@ -9,6 +8,16 @@
       "name": "next_strapi",
       "group": "learn-nextjs",
       "database": "next_strapi",
+      "username": "next_strapi"
+    },
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 35432,
+      "driver": "PostgreSQL",
+      "name": "notes",
+      "group": "learn-nextjs",
+      "database": "notes",
       "username": "next_strapi"
     }
   ]
