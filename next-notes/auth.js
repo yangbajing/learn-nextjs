@@ -51,6 +51,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
     GitHub,
   ],
+  pages: {
+    signIn: "/auth/signin",
+  },
   callbacks: {
     authorized({ request, auth }) {
       const { pathname } = request.nextUrl;
