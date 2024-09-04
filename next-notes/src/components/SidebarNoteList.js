@@ -2,6 +2,7 @@ import { getAllNotes } from "@/lib/redis";
 
 import SidebarNoteListFilter from "./SidebarNoteListFilter";
 import SidebarNoteItemHeader from "./SidebarNoteItemHeader";
+
 export default async function SidebarNoteList() {
   const notes = await getAllNotes();
 

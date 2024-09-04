@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/actions": [
+        "./src/app/[locale]/actions.js"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+      "auth": [
+        "./auth.js"
+      ]
+    }
+  }
+}

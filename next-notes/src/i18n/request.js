@@ -1,0 +1,17 @@
+import { notFound } from "next/navigation";
+import { getRequestConfig } from "next-intl/server";
+import { routing } from "./routing";
+
+export default getRequestConfig(async ({ locale }) => {
+  // Validate that the incoming `locale` parameter is valid
+  if (!routing.locales.includes(locale)) notFound();
+
+  return {
+    messages: (
+      await (locale === "zh"
+        ? // When using Turbopack, this will enable HMR for `zh`
+          import("../../messages/zh.json")
+        : import(`../../messages/${locale}.json`))
+    ).default,
+  };
+});
